@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import Logout from "./Logout";
 import LoginButton from "./LoginButton";

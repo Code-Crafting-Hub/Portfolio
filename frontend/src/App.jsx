@@ -27,7 +27,6 @@ function App() {
       <Route path="/addContact" element={<AddContact/>}/>
       <Route path="/admin@123" element={<Adminl/>} />
     </Routes>
-      
     </>
   )
 }

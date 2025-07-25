@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect } from "react";
 import Navbar from "../componenets/Navbar";
 import { FaExternalLinkAlt, FaSun, FaMoon } from "react-icons/fa";
@@ -109,6 +108,7 @@ export default function Home() {
       });
       setContact(response.data);
     } catch (error) {
+      console.log(error)
       Swal.fire("Error", "Error in fwtching contact data", "error");
     }
   };
@@ -146,19 +146,7 @@ export default function Home() {
     try {
       const response = await axios.get(`${Backend_url}data/image`);
       setImages(response.data);
-    //   if (images.length < 4) return;
-
-    // const timer = setTimeout(() => {
-    //   const [light1, dark1, light2, dark2] = images;
-
-    //   if (theme) {
-    //     setImg(light1);
-    //     setImg2(light2);
-    //   } else {
-    //     setImg(dark1);
-    //     setImg2(dark2);
-    //   }
-    // }, 2000);
+    
     } catch (error) {
       console.log("error in getting images ", error);
     }
@@ -244,7 +232,7 @@ export default function Home() {
         setEsubject("");
         setMessage("");
       },
-      (error) => {
+      () => {
         Swal.fire({
           position: "center",
           icon: "error",
