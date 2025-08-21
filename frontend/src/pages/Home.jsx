@@ -8,6 +8,7 @@ import emailjs from "@emailjs/browser";
 import "animate.css";
 import ScrollReveal from "scrollreveal";
 import Typed from "typed.js";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
   const token = localStorage.getItem("token");
@@ -24,6 +25,7 @@ export default function Home() {
   const [images, setImages] = React.useState([]);
   const [img, setImg] = React.useState([]);
   const [img2, setImg2] = React.useState([]);
+  const navigate = useNavigate();
 
   const Backend_url = import.meta.env.VITE_BACKEND_URL;
 
@@ -32,6 +34,18 @@ export default function Home() {
   const PublicKey = import.meta.env.VITE_PUBLIC_KEY;
 
   // download Cv
+
+  const removeToken = async ()=>{
+    const response = await axios.post(`${Backend_url}user/verify`,{
+        headers:{
+          Authorization: `Bearer ${token}`,
+        },
+    })
+    if(response.data.errors){
+      localStorage.removeItem('token')
+      navigate(0);
+    }
+  }
 
   const downloadCV = async () => {
     try {
@@ -165,6 +179,7 @@ export default function Home() {
     adminContact();
     serviceSection();
     getImages();
+    removeToken();
   }, []);
 
   useEffect(() => {
@@ -328,7 +343,7 @@ export default function Home() {
                   <div key={_id}>
                     <a
                       href={link}
-                      className="w-8 h-8 border-2 rounded-full flex items-center justify-around border-[var(--color-text)] hover:bg-white transition delay-100 duration-300"
+                      className="w-8 h-8 flex items-center justify-around border-[var(--color-text)] hover:bg-white transition delay-100 duration-300"
                       target="_blank"
                     >
                       <img src={image.url} alt="" className="w-[75%]" />
@@ -343,7 +358,7 @@ export default function Home() {
             <img
               src={img.url}
               alt=""
-              className="w-[40vw] md:w-[30vh]"
+              className="w-full m-20"
               style={floatStyle}
             />
           </div>
@@ -357,7 +372,7 @@ export default function Home() {
             <img
               src={img2.url}
               alt=""
-              className="w-[720px]"
+              className="w-full m-20"
               style={floatStyle}
             />
           </div>

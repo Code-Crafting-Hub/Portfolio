@@ -1,6 +1,7 @@
 const express = require('express')
 const userController = require('../controllers/user.controller')
 const userMid = require('../middleware/userMid')
+const verifyMid = require('../middleware/verifyMid')
 
 const userRoute = express.Router()
 
@@ -12,6 +13,7 @@ userRoute.post('/logout', logout)
 
 // file download
 userRoute.get('/download', userMid, downloadFile)
+userRoute.post('/verify',verifyMid)
 userRoute.get('/data',userMid, data)
 // userRoute.post('/update',updateData)
 // userRoute.post('/delete',deleteProfile)

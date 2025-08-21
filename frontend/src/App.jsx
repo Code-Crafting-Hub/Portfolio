@@ -7,6 +7,7 @@ import Users from "./pages/Users"
 import Settings from "./pages/Settings"
 import Adminl from "./pages/Adminl"
 import Login from "./pages/Login"
+import Unknown from "./pages/Unknown"
 import "./app.css"
 import Create from "./pages/Create"
 import AddContact from "./componenets/AddContact"
@@ -26,6 +27,7 @@ function App() {
       <Route path="/create" element={<Create/>}/>
       <Route path="/addContact" element={<AddContact/>}/>
       <Route path="/admin@123" element={<Adminl/>} />
+      <Route path="*" element={<Unknown/>}/>
     </Routes>
     </>
   )
