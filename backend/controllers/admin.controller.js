@@ -87,6 +87,6 @@ const logout = async (req, res) => {
   }
 };
 
-const adminController = { login, logout, signup};
+const adminController = { login, logout, signup };
 
 module.exports = adminController;

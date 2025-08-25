@@ -7,6 +7,7 @@ const fileUpload = require('express-fileupload')
 const {dbConnection} = require('./database/database')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
+const path = require('path')
 require('dotenv').config()
 
 const app = express()
@@ -18,6 +19,8 @@ app.use(cors({
 }));
 app.use(express.json())
 app.use(cookieParser())
+app.use("/doc", express.static(path.join(__dirname, "public", "doc")));
+
 
 app.use(fileUpload({
     useTempFiles : true,

@@ -18,6 +18,7 @@ export default function Settings() {
   const [description, setDescription] = React.useState("");
   const [link, setLink] = React.useState("");
   const [image, setImage] = React.useState(null);
+  const [fileCv, setFileCv] = React.useState(null);
   const [addButton, setAddButton] = React.useState(false);
 
   const token = localStorage.getItem("aToken");
@@ -199,7 +200,7 @@ export default function Settings() {
     }
   };
 
-  const getSkill = async () =>{
+  const getSkill = async () => {
     try {
       const res = await axios.get(`${Backend_url}data/service`);
       if (res) {
@@ -208,9 +209,9 @@ export default function Settings() {
     } catch (error) {
       Swal.fire("Error", "Failed to get image", "error");
     }
-  }
+  };
 
-  const handleDeleteSkill = async (id) =>{
+  const handleDeleteSkill = async (id) => {
     const confirm = await Swal.fire({
       title: "Are you sure?",
       text: "This action cannot be undone!",
@@ -232,10 +233,33 @@ export default function Settings() {
         Swal.fire("Error", "Failed to get image", "error");
       }
     }
-  }
+  };
+
+  const handleCvUpload = async (e) => {
+    e.preventDefault();
+    try {
+      const formData = new FormData();
+      formData.append("pdf", fileCv);
+      const response = await axios.post(
+        `${Backend_url}data/upload-pdf`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+          withCredentials: true,
+        }
+      );
+      Swal.fire("Success", "CV uploaded successfully", "success");
+    } catch (error) {
+      console.log(error);
+      Swal.fire("Error", "Failed to upload CV", "error");
+    }
+  };
 
   React.useEffect(() => {
-    getContact(), getImg(), getSkill()
+    getContact(), getImg(), getSkill();
   }, []);
 
   return (
@@ -446,7 +470,12 @@ export default function Settings() {
                     >
                       Visit
                     </a>
-                    <button className="py-2 px-4 bg-red-500 hover:bg-red-600 hover:cursor-pointer text-white rounded-md" onClick={() => handleDeleteSkill(_id)}>Delete</button>
+                    <button
+                      className="py-2 px-4 bg-red-500 hover:bg-red-600 hover:cursor-pointer text-white rounded-md"
+                      onClick={() => handleDeleteSkill(_id)}
+                    >
+                      Delete
+                    </button>
                   </div>
                 </div>
               );
@@ -521,6 +550,71 @@ export default function Settings() {
               </div>
             </div>
           )}
+        </section>
+
+        {/* CV section */}
+        <section className="py-16 border-b border-[var(--color-text)]">
+          <div className="max-w-4xl mx-auto text-center">
+            {/* Section Title */}
+            <h2 className="text-4xl font-bold text-[var(--primary-accent)] mb-3">
+              Upload Your CV
+            </h2>
+            <p className="text-lg text-[var(--color-text-muted)] mb-10">
+              Upload your latest CV and preview it instantly.
+            </p>
+
+            <div className="grid gap-10 md:grid-cols-2">
+              {/* Upload Form */}
+              <form
+                onSubmit={handleCvUpload}
+                className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 flex flex-col justify-between"
+              >
+                <div>
+                  <label className="block text-lg font-semibold text-[var(--primary-accent)] mb-4">
+                    Select CV File
+                  </label>
+
+                  <input
+                    type="file"
+                    name="cv"
+                    accept=".pdf,.doc,.docx"
+                    onChange={(e) => setFileCv(e.target.files[0])}
+                    className="w-full border border-gray-300 px-4 py-3 rounded-lg text-gray-700 
+              file:mr-4 file:py-2 file:px-6 file:rounded-full file:border-0 file:text-sm 
+              file:font-semibold file:bg-[var(--primary-accent)] file:text-white 
+              hover:file:bg-[var(--secondary-accent)] cursor-pointer"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="mt-6 py-3 px-6 rounded-full bg-[var(--secondary-accent)] text-white font-semibold 
+            shadow-md hover:bg-[var(--hover-button)] hover:scale-[1.02] transition-all duration-300 hover:cursor-pointer"
+                >
+                  Upload CV
+                </button>
+              </form>
+
+              {/* Preview / Open CV */}
+              <div className="bg-[var(--secondary-background)] text-white p-8 rounded-2xl shadow-lg flex flex-col items-center justify-center">
+                <h3 className="text-2xl font-semibold mb-4">Preview CV</h3>
+                <p className="text-[var(--color-text-muted)] text-sm mb-6">
+                  Open your uploaded CV in a new tab.
+                </p>
+
+                <button
+                  onClick={() =>
+                    window.open(`${Backend_url}data/get-pdf`, "_blank")
+                  }
+                  className="py-3 px-8 rounded-full bg-[var(--primary-accent)] text-white font-semibold 
+            shadow-md hover:bg-[var(--secondary-accent)] hover:scale-[1.05] transition-all duration-300 hover:cursor-pointer"
+                >
+                  Open CV
+                </button>
+                
+              </div>
+            </div>
+          </div>
         </section>
       </div>
     </div>

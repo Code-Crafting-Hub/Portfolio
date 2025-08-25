@@ -33,19 +33,21 @@ export default function Home() {
   const ServiceId = import.meta.env.VITE_SERVICE_ID;
   const PublicKey = import.meta.env.VITE_PUBLIC_KEY;
 
-  // download Cv
-
-  const removeToken = async ()=>{
-    const response = await axios.post(`${Backend_url}user/verify`,{
-        headers:{
-          Authorization: `Bearer ${token}`,
-        },
-    })
-    if(response.data.errors){
-      localStorage.removeItem('token')
+  const removeToken = async () => {
+    const response = await axios.get(`${Backend_url}user/verify`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      withCredentials: true,
+    });
+    if (response.data.errors) {
+      localStorage.removeItem("aToken");
+      localStorage.removeItem("token");
       navigate(0);
     }
-  }
+  };
+
+  //download CV
 
   const downloadCV = async () => {
     try {
@@ -60,9 +62,9 @@ export default function Home() {
         return;
       }
       const response = await axios.get(`${Backend_url}user/download`, {
-        responseType: "blob", // Important for downloading files
+        responseType: "blob",
         headers: {
-          Authorization: `Bearer ${token}`, // Adjust based on your file type
+          Authorization: `Bearer ${token}`,
         },
       });
       if (response.status !== 200) {
@@ -122,7 +124,7 @@ export default function Home() {
       });
       setContact(response.data);
     } catch (error) {
-      console.log(error)
+      console.log(error);
       Swal.fire("Error", "Error in fwtching contact data", "error");
     }
   };
@@ -160,7 +162,6 @@ export default function Home() {
     try {
       const response = await axios.get(`${Backend_url}data/image`);
       setImages(response.data);
-    
     } catch (error) {
       console.log("error in getting images ", error);
     }
@@ -513,7 +514,7 @@ export default function Home() {
               />
             </div>
             <div className="w-full">
-              <input type="email" name="email" value={email} hidden />
+              <input type="email" name="email" value={email} onChange={()=>setEmail()} hidden />
               <input
                 type="text"
                 placeholder="Subject"

@@ -4,6 +4,8 @@ const projectModel = require("../models/project.model");
 const contactModel = require("../models/contact.model");
 const imgModel = require("../models/image.model");
 const serviceModel = require("../models/service.model");
+const path = require('path')
+const fs = require('fs')
 
 // Fetching user login data
 
@@ -373,6 +375,49 @@ const getService = async (req, res) => {
   }
 };
 
+// CV file
+
+const uploadPdf = async(req,res)=>{
+  try {
+    
+    if (!req.files || !req.files.pdf) {
+      return res.status(400).json({ error: "No file uploaded" });
+    }
+
+    const pdfFile = req.files.pdf;
+    const uploadPath = path.join(__dirname, "..", "public", "doc", "CV.pdf");
+
+    if (pdfFile.mimetype !== "application/pdf") {
+      return res.status(400).json({ error: "Only PDF files are allowed" });
+    }
+
+    await pdfFile.mv(uploadPath);
+
+    res.json({
+      message: "PDF uploaded successfully",
+      fileUrl: `/doc/${pdfFile.name}`
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ errors: "Error uploading PDF" });
+  }
+}
+
+const getPdf = async (req, res) => {
+  try {
+    const filePath = path.join(__dirname, "../public/doc", "CV.pdf");
+
+    if (!fs.existsSync(filePath)) {
+      return res.status(404).json({ error: "CV not found" });
+    }
+    res.sendFile(filePath);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ errors: "Internal server error in getting file" });
+  }
+};
+
+
 const adminData = {
   userData,
   createProjects,
@@ -389,6 +434,8 @@ const adminData = {
   createService,
   deleteService,
   getService,
+  uploadPdf,
+  getPdf
 };
 
 module.exports = adminData;
