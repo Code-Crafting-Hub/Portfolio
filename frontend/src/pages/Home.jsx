@@ -501,7 +501,13 @@ export default function Home() {
               />
             </div>
             <div className="w-full">
-              <input type="email" name="email" value={email} onChange={()=>setEmail()} hidden />
+              <input
+                type="email"
+                name="email"
+                value={email}
+                onChange={() => setEmail()}
+                hidden
+              />
               <input
                 type="text"
                 placeholder="Subject"

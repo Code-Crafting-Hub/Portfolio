@@ -611,7 +611,6 @@ export default function Settings() {
                 >
                   Open CV
                 </button>
-                
               </div>
             </div>
           </div>
