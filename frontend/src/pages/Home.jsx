@@ -51,21 +51,8 @@ export default function Home() {
 
   const downloadCV = async () => {
     try {
-      if (!token) {
-        Swal.fire({
-          position: "center",
-          icon: "error",
-          title: "Please Login to Download CV",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        return;
-      }
       const response = await axios.get(`${Backend_url}user/download`, {
         responseType: "blob",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       });
       if (response.status !== 200) {
         Swal.fire({

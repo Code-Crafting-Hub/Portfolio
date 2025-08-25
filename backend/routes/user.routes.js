@@ -12,7 +12,7 @@ userRoute.post('/signup', signup)
 userRoute.post('/logout', logout)
 
 // file download
-userRoute.get('/download', userMid, downloadFile)
+userRoute.get('/download', downloadFile)
 userRoute.get('/verify',verifyMid)
 userRoute.get('/data',userMid, data)
 // userRoute.post('/update',updateData)
