@@ -112,7 +112,7 @@ export default function Home() {
       setContact(response.data);
     } catch (error) {
       console.log(error);
-      Swal.fire("Error", "Error in fwtching contact data", "error");
+      Swal.fire("Error", "Error in fetching contact data", "error");
     }
   };
 
@@ -210,7 +210,7 @@ export default function Home() {
       Swal.fire({
         position: "center",
         icon: "error",
-        title: "Login forst",
+        title: "Login first",
         showConfirmButton: false,
         timer: 2000,
       });
@@ -331,7 +331,7 @@ export default function Home() {
                   <div key={_id}>
                     <a
                       href={link}
-                      className="w-8 h-8 flex items-center justify-around border-[var(--color-text)] hover:bg-white transition delay-100 duration-300"
+                      className="w-8 h-8 flex items-center justify-around border-[var(--color-text)] hover:bg-white/70 transition delay-100 duration-300 bg-white rounded-lg"
                       target="_blank"
                     >
                       <img src={image.url} alt="" className="w-[75%]" />
@@ -369,18 +369,18 @@ export default function Home() {
               About <span className="text-[var(--primary-accent)]">Me</span>
             </h2>
             <h3 className="text-2xl font-semibold text-[var(--secondary-accent)]">
-              Fullstack Developer
+              MERN Stack Developer
             </h3>
             <p className="text-lg mt-4 mb-2">
-              Dedicated and passionate Full Stack Developer with strong
+              Dedicated and passionate MERN Stack Developer with strong
               knowledge of modern web technologies. Aspires to contribute
               effectively to a reputed organization by delivering robust,
               user-centric solutions while continually enhancing technical
               expertise.
             </p>
-            <a href="#home">
+            {/* <a href="#home">
               <Button name="Read More..." />
-            </a>
+            </a> */}
           </div>
         </section>
         {/* Services section */}
@@ -505,7 +505,7 @@ export default function Home() {
                 type="email"
                 name="email"
                 value={email}
-                onChange={() => setEmail()}
+                // onChange={() => setEmail()}
                 hidden
               />
               <input

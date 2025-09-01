@@ -1,5 +1,5 @@
 import React from "react";
-import img from "../assets/back.jpg";
+import img from "../assets/back.png";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
