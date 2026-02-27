@@ -342,7 +342,7 @@ export default function Home() {
             </div>
             <Button name="Download CV" url={downloadCV} />
           </div>
-          <div className="w-[750px] flex justify-center lg:block">
+          <div className="hidden w-[750px] justify-center lg:block">
             <img
               src={img.url}
               alt=""
@@ -505,7 +505,7 @@ export default function Home() {
                 type="email"
                 name="email"
                 value={email}
-                // onChange={() => setEmail()}
+                onChange={() => setEmail()}
                 hidden
               />
               <input
