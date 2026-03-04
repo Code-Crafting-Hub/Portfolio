@@ -51,13 +51,13 @@ export default function SideBar() {
           <FaHome />
           <span>Home</span>
         </Link>
-        <Link
+        {/* <Link
           to="/users"
           className="flex items-center gap-3 p-3 rounded-md hover:text-[var(--primary-accent)] hover:bg-white transition"
         >
           <FaUser />
           <span>Users</span>
-        </Link>
+        </Link> */}
         <Link
           to="/projects"
           className="flex items-center gap-3 p-3 rounded-md hover:text-[var(--primary-accent)] hover:bg-white transition"

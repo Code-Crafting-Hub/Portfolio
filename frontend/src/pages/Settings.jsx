@@ -2,7 +2,7 @@
 import React from "react";
 import SideBar from "../componenets/SideBar";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import Button from "../componenets/Button";
 
@@ -23,6 +23,13 @@ export default function Settings() {
 
   const token = localStorage.getItem("aToken");
   const Backend_url = import.meta.env.VITE_BACKEND_URL;
+  const navigate = useNavigate();
+
+  const tokenHandler = () => {
+    if (!token) {
+      navigate("/");
+    }
+  };
 
   const getContact = async () => {
     try {
@@ -68,7 +75,7 @@ export default function Settings() {
         {
           headers: { Authorization: `Bearer ${token}` },
           withCredentials: true,
-        }
+        },
       );
       Swal.fire("Updated!", "Contact has been updated.", "success");
       setEditingId(null);
@@ -101,7 +108,7 @@ export default function Settings() {
             Authorization: `Bearer ${token}`,
           },
           withCredentials: true,
-        }
+        },
       );
       Swal.fire({
         position: "center",
@@ -178,7 +185,7 @@ export default function Settings() {
             Authorization: `Bearer ${token}`,
           },
           withCredentials: true,
-        }
+        },
       );
       Swal.fire({
         position: "center",
@@ -249,7 +256,7 @@ export default function Settings() {
             "Content-Type": "multipart/form-data",
           },
           withCredentials: true,
-        }
+        },
       );
       Swal.fire("Success", "CV uploaded successfully", "success");
     } catch (error) {
@@ -259,7 +266,7 @@ export default function Settings() {
   };
 
   React.useEffect(() => {
-    getContact(), getImg(), getSkill();
+    (tokenHandler(), getContact(), getImg(), getSkill());
   }, []);
 
   return (
@@ -389,7 +396,7 @@ export default function Settings() {
             <div
               className="inset-0 fixed flex bg-transparent backdrop-blur-[20px] justify-center items-center"
               onClick={() => {
-                setCreateImg(false), setAddButton(false);
+                (setCreateImg(false), setAddButton(false));
               }}
             >
               <div
@@ -491,7 +498,7 @@ export default function Settings() {
             <div
               className="inset-0 fixed flex bg-transparent backdrop-blur-[20px] justify-center items-center"
               onClick={() => {
-                setCreateSkill(false), setAddButton(false);
+                (setCreateSkill(false), setAddButton(false));
               }}
             >
               <div

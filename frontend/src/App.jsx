@@ -3,7 +3,7 @@ import Home from './pages/Home'
 // import Signup from "./pages/Signup"
 import Projects from "./pages/Projects"
 import Dashboard from "./pages/Dashboard"
-import Users from "./pages/Users"
+// import Users from "./pages/Users"
 import Settings from "./pages/Settings"
 import Adminl from "./pages/Adminl"
 // import Login from "./pages/Login"
@@ -22,7 +22,7 @@ function App() {
       <Route path="/signup" element={<Signup/>}/> */}
       <Route path="/projects" element={<Projects/>}/>
       <Route path="/dashboard" element={<Dashboard/>} />
-      <Route path="/users" element={<Users/>}/>
+      {/* <Route path="/users" element={<Users/>}/> */}
       <Route path="/settings" element={<Settings/>}/>
       <Route path="/create" element={<Create/>}/>
       <Route path="/addContact" element={<AddContact/>}/>

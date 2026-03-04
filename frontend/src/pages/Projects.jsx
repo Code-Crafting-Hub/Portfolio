@@ -2,7 +2,7 @@
 import React from "react";
 import SideBar from "../componenets/SideBar";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../componenets/Button";
 import Swal from "sweetalert2";
 
@@ -16,8 +16,15 @@ export default function Projects() {
   const [image, setImageFile] = React.useState(null);
   const [id, setId] = React.useState("");
   const token = localStorage.getItem("aToken");
+  const navigate = useNavigate();
 
   const Backend_url = import.meta.env.VITE_BACKEND_URL
+
+  const tokenHandler = () => {
+    if (!token) {
+      navigate("/");
+    }
+  }
 
   const getData = async () => {
     try {
@@ -38,6 +45,7 @@ export default function Projects() {
 
   React.useEffect(() => {
     getData();
+    tokenHandler();
   }, []);
 
   const handleEditData = (data) => {
