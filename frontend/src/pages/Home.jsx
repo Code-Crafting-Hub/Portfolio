@@ -8,10 +8,10 @@ import emailjs from "@emailjs/browser";
 import "animate.css";
 import ScrollReveal from "scrollreveal";
 import Typed from "typed.js";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 export default function Home() {
-  const token = localStorage.getItem("token");
+  // const token = localStorage.getItem("token");
   const [firstName, setFirstName] = React.useState("");
   const [lastName, setLastName] = React.useState("");
   const [esubject, setEsubject] = React.useState("");
@@ -25,7 +25,7 @@ export default function Home() {
   const [images, setImages] = React.useState([]);
   const [img, setImg] = React.useState([]);
   const [img2, setImg2] = React.useState([]);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const Backend_url = import.meta.env.VITE_BACKEND_URL;
 
@@ -33,19 +33,19 @@ export default function Home() {
   const ServiceId = import.meta.env.VITE_SERVICE_ID;
   const PublicKey = import.meta.env.VITE_PUBLIC_KEY;
 
-  const removeToken = async () => {
-    const response = await axios.get(`${Backend_url}user/verify`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      withCredentials: true,
-    });
-    if (response.data.errors) {
-      localStorage.removeItem("aToken");
-      localStorage.removeItem("token");
-      navigate(0);
-    }
-  };
+  // const removeToken = async () => {
+  //   const response = await axios.get(`${Backend_url}user/verify`, {
+  //     headers: {
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //     withCredentials: true,
+  //   });
+  //   if (response.data.errors) {
+  //     localStorage.removeItem("aToken");
+  //     localStorage.removeItem("token");
+  //     navigate(0);
+  //   }
+  // };
 
   //download CV
 
@@ -86,23 +86,23 @@ export default function Home() {
 
   // getting user data
 
-  const userData = async () => {
-    try {
-      if (token) {
-        const response = await axios.get(`${Backend_url}user/data`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        const { firstName, lastName, email } = response.data.user;
-        setFirstName(firstName);
-        setLastName(lastName);
-        setEmail(email);
-      }
-    } catch (error) {
-      console.error("Error in fetching user data:", error);
-    }
-  };
+  // const userData = async () => {
+  //   try {
+  //     if (token) {
+  //       const response = await axios.get(`${Backend_url}user/data`, {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       });
+  //       const { firstName, lastName, email } = response.data.user;
+  //       setFirstName(firstName);
+  //       setLastName(lastName);
+  //       setEmail(email);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error in fetching user data:", error);
+  //   }
+  // };
 
   const adminContact = async () => {
     try {
@@ -162,12 +162,12 @@ export default function Home() {
   }, [theme]);
 
   useEffect(() => {
-    userData();
+    // userData();
     projectSection();
     adminContact();
     serviceSection();
     getImages();
-    removeToken();
+    // removeToken();
   }, []);
 
   useEffect(() => {
@@ -195,7 +195,7 @@ export default function Home() {
   const sendEmail = (e) => {
     e.preventDefault();
 
-    if (!firstName || !lastName || !esubject || !message) {
+    if (!firstName || !lastName || !esubject || !message || !email) {
       Swal.fire({
         position: "center",
         icon: "error",
@@ -234,6 +234,9 @@ export default function Home() {
         });
         setEsubject("");
         setMessage("");
+        setEmail("");
+        setFirstName("");
+        setLastName("");
       },
       () => {
         Swal.fire({
@@ -490,6 +493,7 @@ export default function Home() {
                 value={firstName || ""}
                 name="fname"
                 onChange={(e) => setFirstName(e.target.value)}
+                required
               />
               <input
                 type="text"
@@ -504,9 +508,11 @@ export default function Home() {
               <input
                 type="email"
                 name="email"
-                value={email}
-                onChange={() => setEmail()}
-                hidden
+                placeholder="Email"
+                value={email || ""}
+                className="bg-[var(--secondary-background)] rounded mt-5 px-4 py-1 w-full focus:outline-none"
+                onChange={(e) => setEmail(e.target.value)}
+                required
               />
               <input
                 type="text"
@@ -515,6 +521,7 @@ export default function Home() {
                 value={esubject}
                 onChange={(e) => setEsubject(e.target.value)}
                 name="subject"
+                required
               />
             </div>
             <textarea
@@ -523,6 +530,7 @@ export default function Home() {
               className="bg-[var(--secondary-background)] rounded my-5 px-4 py-1 w-full h-[120px] focus:outline-none"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
+              required
             ></textarea>
             <div className="w-full flex justify-center mb-5">
               <Button name="Send Message" type="submit" />

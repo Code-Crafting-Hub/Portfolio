@@ -6,23 +6,23 @@ import { useNavigate } from "react-router-dom";
 import { IoMdMenu } from "react-icons/io";
 
 export default function Navbar() {
-  const token = localStorage.getItem("token");
+  // const token = localStorage.getItem("token");
   const atoken = localStorage.getItem("aToken");
-  const [userLogin, setUserLogin] = useState(false);
+  // const [userLogin, setUserLogin] = useState(false);
   const [adminLogin, setAdminLogin] = useState(false);
   const [activeLink, setActiveLink] = useState("");
   const [responsive, setResponsive] = useState(false);
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    setUserLogin(!!token);
-  }, [token]);
+  // useEffect(() => {
+  //   setUserLogin(!!token);
+  // }, [token]);
 
   useEffect(() => {
     if (atoken) {
       setAdminLogin(true);
-      setUserLogin(true);
+      // setUserLogin(true);
     } else {
       setAdminLogin(false);
     }
@@ -110,7 +110,7 @@ export default function Navbar() {
       {/* Desktop Navigation */}
       <div className="hidden lg:flex space-x-4 items-center pe-6">
         {navLinks}
-        {userLogin ? <Logout onSendData={setUserLogin} /> : <LoginButton />}
+        {/* {userLogin ? <Logout onSendData={setUserLogin} /> : <LoginButton />} */}
         {adminLogin ? <Button name="Dashboard" url={adminDashboard} /> : ""}
       </div>
 
@@ -118,7 +118,7 @@ export default function Navbar() {
       {responsive && (
         <div className="absolute top-[100%] left-0 right-0 bg-[var(--primary-accent)] shadow-md px-6 py-4 flex flex-col space-y-3 lg:hidden transition-all duration-300 z-40">
           {navLinks}
-          {userLogin ? <Logout onSendData={setUserLogin} /> : <LoginButton />}
+          {/* {userLogin ? <Logout onSendData={setUserLogin} /> : <LoginButton />} */}
           {adminLogin ? <Button name="Dashboard" url={adminDashboard} /> : ""}
         </div>
       )}

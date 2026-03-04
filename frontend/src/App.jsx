@@ -1,12 +1,12 @@
 import { Route, Routes } from "react-router-dom"
 import Home from './pages/Home'
-import Signup from "./pages/Signup"
+// import Signup from "./pages/Signup"
 import Projects from "./pages/Projects"
 import Dashboard from "./pages/Dashboard"
 import Users from "./pages/Users"
 import Settings from "./pages/Settings"
 import Adminl from "./pages/Adminl"
-import Login from "./pages/Login"
+// import Login from "./pages/Login"
 import Unknown from "./pages/Unknown"
 import "./app.css"
 import Create from "./pages/Create"
@@ -18,8 +18,8 @@ function App() {
     <>
     <Routes>
       <Route path="/" element={<Home/>}/>
-      <Route path="/login" element={<Login/>}/>
-      <Route path="/signup" element={<Signup/>}/>
+      {/* <Route path="/login" element={<Login/>}/>
+      <Route path="/signup" element={<Signup/>}/> */}
       <Route path="/projects" element={<Projects/>}/>
       <Route path="/dashboard" element={<Dashboard/>} />
       <Route path="/users" element={<Users/>}/>
