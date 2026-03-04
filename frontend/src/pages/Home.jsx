@@ -138,7 +138,7 @@ export default function Home() {
       setTypedJs(
         services
           .map((item) => item.name)
-          .filter((name) => typeof name === "string" && name.trim() !== "")
+          .filter((name) => typeof name === "string" && name.trim() !== ""),
       );
     } catch (error) {
       console.error("Error in fetching user data:", error);
@@ -157,7 +157,7 @@ export default function Home() {
   useEffect(() => {
     document.documentElement.setAttribute(
       "data-theme",
-      theme ? "light" : "dark"
+      theme ? "light" : "dark",
     );
   }, [theme]);
 
@@ -246,7 +246,7 @@ export default function Home() {
           showConfirmButton: false,
           timer: 2000,
         });
-      }
+      },
     );
   };
 
@@ -309,102 +309,181 @@ export default function Home() {
         </style>
         {/* First section */}
         <section
-          className="h-[100vh] text-[var(--color-text-primary)] p-[4rem] md:p-[5rem] lg:p-[10rem] flex flex-wrap lg:flex-nowrap items-center justify-center md:gap-[10rem]"
+          className="min-h-screen text-[var(--color-text-primary)] 
+             px-6 py-16 
+             md:px-16 md:py-20 
+             lg:h-[100vh] lg:p-[10rem] 
+             flex flex-col-reverse lg:flex-row 
+             items-center justify-center 
+             gap-10 md:gap-16 lg:gap-[10rem]"
           id="home"
         >
-          <div className="mt-10 lg:mt-0">
-            <h3 className="text-[2.8rem]/14 font-bold gap-0">
+          {/* LEFT CONTENT */}
+          <div className="text-center lg:text-left max-w-2xl">
+            <h3 className="text-2xl md:text-3xl lg:text-[2.8rem] font-bold leading-tight">
               Hello, It&apos;s Me
             </h3>
-            <h1 className="text-[2rem] md:text-[4rem]/16 font-bold">
+
+            <h1 className="text-3xl md:text-5xl lg:text-[4rem] font-bold leading-tight">
               Yashkaran Singh
             </h1>
-            <h3 className="text-[1.2rem] md:text-[2.4rem]/14 font-bold">
+
+            <h3 className="text-lg md:text-2xl lg:text-[2.4rem] font-bold leading-tight">
               I&apos;m a{" "}
               <span className="text-[var(--primary-accent)]" ref={el}></span>
             </h3>
-            <p className="text-[1.6rem]/8 mt-2">
+
+            <p className="text-base md:text-lg lg:text-[1.6rem] mt-4 leading-relaxed">
               Dedicated and passionate Full Stack Developer with strong
               knowledge of modern web technologies.
             </p>
-            <div className="flex items-center gap-4 my-4">
+
+            {/* SOCIAL ICONS */}
+            <div className="flex items-center justify-center lg:justify-start gap-4 my-6">
               {Contact.map((data) => {
                 const { _id, image, link } = data;
                 return (
                   <div key={_id}>
                     <a
                       href={link}
-                      className="w-8 h-8 flex items-center justify-around border-[var(--color-text)] hover:bg-white/70 transition delay-100 duration-300 bg-white rounded-lg"
+                      className="w-10 h-10 flex items-center justify-center 
+                         hover:bg-white/70 
+                         transition duration-300 
+                         bg-white rounded-lg"
                       target="_blank"
+                      rel="noopener noreferrer"
                     >
-                      <img src={image.url} alt="" className="w-[75%]" />
+                      <img src={image.url} alt="" className="w-[70%]" />
                     </a>
                   </div>
                 );
               })}
             </div>
-            <Button name="Download CV" url={downloadCV} />
+
+            <div className="flex justify-center lg:justify-start">
+              <Button name="Download CV" url={downloadCV} />
+            </div>
           </div>
-          <div className="hidden w-[750px] justify-center lg:block">
+
+          {/* RIGHT IMAGE */}
+          <div className="hidden lg:flex w-full max-w-md md:max-w-lg lg:max-w-none lg:w-[750px] justify-center">
             <img
               src={img.url}
               alt=""
-              className="w-full m-20"
+              className="w-full lg:m-20"
               style={floatStyle}
             />
           </div>
         </section>
         {/* About section */}
         <section
-          className="flex items-center justify-center gap-[10rem] p-[4rem] md:p-[10rem] bg-[var(--secondary-background)]"
+          className="flex flex-col lg:flex-row 
+             items-center justify-center 
+             gap-12 md:gap-20 lg:gap-[10rem] 
+             px-6 py-16 
+             md:px-16 md:py-20 
+             lg:p-[10rem] 
+             bg-[var(--secondary-background)]"
           id="about"
         >
-          <div className="w-[750px] hidden lg:block">
+          {/* IMAGE */}
+          <div className="hidden lg:flex w-full max-w-md md:max-w-lg lg:max-w-none lg:w-[750px] justify-center">
             <img
               src={img2.url}
               alt=""
-              className="w-full m-20"
+              className="w-full lg:m-20"
               style={floatStyle}
             />
           </div>
-          <div>
-            <h2 className="text-center md:text-left text-[4.3rem]/20 md:text-[4.5rem]/20 font-semibold">
+
+          {/* CONTENT */}
+          <div className="max-w-2xl text-center lg:text-left">
+            <h2
+              className="text-3xl md:text-5xl lg:text-[4.5rem] 
+                   font-semibold leading-tight"
+            >
               About <span className="text-[var(--primary-accent)]">Me</span>
             </h2>
-            <h3 className="text-2xl font-semibold text-[var(--secondary-accent)]">
+
+            <h3
+              className="text-xl md:text-2xl 
+                   font-semibold 
+                   text-[var(--secondary-accent)] mt-4"
+            >
               MERN Stack Developer
             </h3>
-            <p className="text-lg mt-4 mb-2">
+
+            <p className="text-base md:text-lg mt-6 leading-relaxed">
               Dedicated and passionate MERN Stack Developer with strong
               knowledge of modern web technologies. Aspires to contribute
               effectively to a reputed organization by delivering robust,
               user-centric solutions while continually enhancing technical
               expertise.
             </p>
-            {/* <a href="#home">
-              <Button name="Read More..." />
-            </a> */}
           </div>
         </section>
         {/* Services section */}
-        <section className="p-[1rem] md:p-[4rem]" id="services">
-          <h2 className="text-center text-[4.3rem]/20 md:text-[4.5rem]/20 font-semibold">
+        <section
+          className="px-6 py-16 
+             md:px-16 md:py-20 
+             lg:p-[4rem]"
+          id="services"
+        >
+
+          <h2
+            className="text-center 
+                 text-3xl md:text-5xl lg:text-[4.5rem] 
+                 font-semibold leading-tight"
+          >
             My <span className="text-[var(--primary-accent)]">Services</span>
           </h2>
-          <div className="flex flex-wrap justify-center items-center gap-10 mt-10 transition duration-300 ease-out">
+
+          <div
+            className="flex flex-wrap 
+                  justify-center 
+                  items-stretch 
+                  gap-8 md:gap-10 
+                  mt-12"
+          >
             {services.map((data) => {
               const { _id, name, description, link } = data;
               return (
                 <div
                   key={_id}
-                  className="flex flex-col justify-center bg-[var(--secondary-background)] p-5 rounded-lg shadow-md w-70 h-80 padding-[3rem 2rem 4rem] text-center items-center hover:border-2 hover:border-[var(--primary-accent)] transition duration-300 hover:scale-102"
+                  className="flex flex-col justify-between 
+                     bg-[var(--secondary-background)] 
+                     p-6 md:p-8 
+                     rounded-lg shadow-md 
+                     text-center 
+                     items-center 
+                     transition duration-300 
+                     hover:border-2 
+                     hover:border-[var(--primary-accent)] 
+                     hover:scale-105
+                     
+                     w-full 
+                     sm:w-[45%] 
+                     lg:w-[30%] 
+                     max-w-[350px]"
                 >
-                  <h3 className="text-2xl font-semibold">{name}</h3>
-                  <p className="mt-2 h-[65%] overflow-hidden">{description}</p>
-                  <div className="w-full flex justify-center">
+                  <h3 className="text-xl md:text-2xl font-semibold">{name}</h3>
+
+                  <p className="mt-4 text-sm md:text-base leading-relaxed">
+                    {description}
+                  </p>
+
+                  <div className="w-full flex justify-center mt-6">
                     <a
                       href={link}
-                      className="w-fit py-2 px-6 rounded-full bg-[var(--secondary-accent)] hover:bg-[var(--hover-button)]  transition delay-100 duration-300 font-semibold hover:cursor-pointer shadow-md shadow-green-800 text-white"
+                      className="w-fit py-2 px-6 
+                         rounded-full 
+                         bg-[var(--secondary-accent)] 
+                         hover:bg-[var(--hover-button)]  
+                         transition duration-300 
+                         font-semibold 
+                         shadow-md 
+                         shadow-green-800 
+                         text-white"
                     >
                       Get Service
                     </a>
@@ -412,6 +491,7 @@ export default function Home() {
                 </div>
               );
             })}
+
             {/* <div className="flex flex-col justify-center bg-[var(--secondary-background)] p-5 rounded-lg shadow-md w-70 h-85 padding-[3rem 2rem 4rem] text-center items-center hover:border-2 hover:border-[var(--primary-accent)] transition duration-300 hover:scale-102">
               <div className="flex justify-center h-10">
                 <FaCode className="text-4xl text-[var(--secondary-accent)]" />
