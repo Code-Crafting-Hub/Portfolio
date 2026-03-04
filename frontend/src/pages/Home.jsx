@@ -195,7 +195,7 @@ export default function Home() {
   const sendEmail = (e) => {
     e.preventDefault();
 
-    if (!firstName || !lastName || !esubject || !message || !email) {
+    if (!firstName || !esubject || !message || !email) {
       Swal.fire({
         position: "center",
         icon: "error",
@@ -493,7 +493,6 @@ export default function Home() {
                 value={firstName || ""}
                 name="fname"
                 onChange={(e) => setFirstName(e.target.value)}
-                required
               />
               <input
                 type="text"
@@ -521,7 +520,6 @@ export default function Home() {
                 value={esubject}
                 onChange={(e) => setEsubject(e.target.value)}
                 name="subject"
-                required
               />
             </div>
             <textarea
@@ -530,7 +528,6 @@ export default function Home() {
               className="bg-[var(--secondary-background)] rounded my-5 px-4 py-1 w-full h-[120px] focus:outline-none"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              required
             ></textarea>
             <div className="w-full flex justify-center mb-5">
               <Button name="Send Message" type="submit" />
