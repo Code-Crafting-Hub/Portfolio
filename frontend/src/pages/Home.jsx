@@ -429,7 +429,6 @@ export default function Home() {
              lg:p-[4rem]"
           id="services"
         >
-
           <h2
             className="text-center 
                  text-3xl md:text-5xl lg:text-[4.5rem] 
@@ -513,39 +512,47 @@ export default function Home() {
           className="bg-[var(--secondary-background)] p-[1rem] md:p-[4rem]"
           id="projects"
         >
-          <h2 className="text-center text-[4.3rem]/20 md:text-[4.5rem]/20 font-semibold mt-5">
+          <h2 className="text-center text-[3.5rem] md:text-[4.5rem] font-semibold mt-5">
             Latest{" "}
             <span className="text-[var(--primary-accent)]">Projects</span>
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 md:px-28 md:py-5 mt-5">
+
+          {/* Responsive Grid: 1 col on mobile, 2 on tablet (md), 3 on desktop (lg) */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:px-10 lg:px-20 py-10 mt-5">
             {projectData.map((data) => {
               const { _id, name, description, link, image } = data;
 
               return (
                 <div
-                  className="relative bg-white rounded-lg shadow-lg transition duration-300 overflow-hidden flex group"
                   key={_id}
+                  className="relative bg-white rounded-xl shadow-lg transition duration-300 overflow-hidden group h-[22rem] md:h-[26rem] lg:h-[28rem]"
                 >
+                  {/* Image fills the container height */}
+                  <a href={link} target="_blank">
                   <img
                     src={image.url}
-                    alt=""
-                    className="w-full h-full transition-transform duration-300 transform group-hover:scale-105"
+                    alt={name}
+                    className="w-full h-full object-cover transition-transform duration-500 transform group-hover:scale-110"
                   />
 
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-b from-[var(--color-background)] to-[var(--primary-accent)] h-full flex flex-col items-center justify-center p-2 text-center transform translate-y-100 group-hover:translate-y-0 transition-transform duration-500 ease-in-out">
-                    <h4 className="text-[2.5rem] text-[var(--primary-accent)]">
+                  {/* Hover Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-[var(--color-background)]/80 to-[var(--primary-accent)] h-full flex flex-col items-center justify-center p-6 text-center transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out">
+                    <h4 className="text-[2rem] font-bold text-[var(--primary-accent)] leading-tight">
                       {name}
                     </h4>
-                    <p className="text-[1rem] mt-[1rem] mb-[1rem] text-white">
+                    <p className="text-[0.95rem] mt-3 mb-5 text-white line-clamp-4">
                       {description}
                     </p>
                     <a
                       href={link}
-                      className="inline-flex justify-center items-center mt-2 w-[2.8rem] h-[2.8rem] bg-[var(--primary-accent)] rounded-full hover:text-[var(--secondary-accent)]"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex justify-center items-center w-[3rem] h-[3rem] bg-[var(--primary-accent)] text-white rounded-full hover:bg-white hover:text-[var(--primary-accent)] transition-all duration-300 shadow-lg"
                     >
-                      <FaExternalLinkAlt />
+                      <FaExternalLinkAlt size={18} />
                     </a>
                   </div>
+                  </a>
                 </div>
               );
             })}
