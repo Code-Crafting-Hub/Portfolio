@@ -52,7 +52,7 @@ export default function Home() {
   const downloadCV = async () => {
   try {
     // This must be the PUBLIC delivery URL, not the console/dashboard link
-    const fileUrl = `https://res.cloudinary.com/YOUR_CLOUD_NAME/raw/upload/fl_attachment/portfolio_docs/CV.pdf`;
+    const fileUrl = `https://drive.google.com/file/d/1XlIilZdZHwot8apxPq5djRro9TSR3yov/view?usp=drive_link`;
 
     const response = await axios.get(fileUrl, {
       responseType: "blob", // Important for handling PDF data
