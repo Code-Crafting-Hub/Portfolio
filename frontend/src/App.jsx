@@ -8,7 +8,7 @@ import Settings from "./pages/Settings"
 import Adminl from "./pages/Adminl"
 // import Login from "./pages/Login"
 import Unknown from "./pages/Unknown"
-import "./app.css"
+import "./App.css"
 import Create from "./pages/Create"
 import AddContact from "./componenets/AddContact"
 
