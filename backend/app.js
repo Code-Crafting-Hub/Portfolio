@@ -22,10 +22,7 @@ app.use(cookieParser())
 app.use("/doc", express.static(path.join(__dirname, "public", "doc")));
 
 
-app.use(fileUpload({
-    useTempFiles : true,
-    tempFileDir : '/tmp/'
-}));
+app.use(fileUpload());
 
 app.use(async (req, res, next) => {
     await dbConnection();
