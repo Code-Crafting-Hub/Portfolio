@@ -242,29 +242,41 @@ export default function Settings() {
     }
   };
 
-  const handleCvUpload = async (e) => {
-    e.preventDefault();
-    try {
-      const formData = new FormData();
-      formData.append("pdf", fileCv);
-      const response = await axios.post(
-        `${Backend_url}data/upload-pdf`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-          withCredentials: true,
-        },
-      );
-      Swal.fire("Success", "CV uploaded successfully", "success");
-    } catch (error) {
-      console.log(error);
-      Swal.fire("Error", "Failed to upload CV", "error");
-    }
-  };
+ const handleCvUpload = async (e) => {
+  e.preventDefault();
+  if (!fileCv) return Swal.fire("Wait", "Please select a file first", "info");
 
+  try {
+    const formData = new FormData();
+    formData.append("pdf", fileCv);
+    
+    // Use Swal.showLoading so the user knows it's working
+    Swal.fire({ title: 'Uploading...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+
+    const response = await axios.post(
+      `${Backend_url}data/upload-pdf`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+        withCredentials: true,
+      }
+    );
+
+    Swal.fire("Success", "CV updated on Cloudinary!", "success");
+    setFileCv(null); // Clear selection
+    e.target.reset(); // Reset the file input field UI
+  } catch (error) {
+    console.error(error);
+    // If token is expired, redirect to login
+    if (error.response?.status === 401) {
+       navigate("/");
+    }
+    Swal.fire("Error", "Failed to upload CV", "error");
+  }
+};
   React.useEffect(() => {
     (tokenHandler(), getContact(), getImg(), getSkill());
   }, []);
@@ -595,6 +607,9 @@ export default function Settings() {
 
                 <button
                   type="submit"
+                  onClick={() =>
+    window.open(`${Backend_url}data/get-pdf?t=${Date.now()}`, "_blank")
+  }
                   className="mt-6 py-3 px-6 rounded-full bg-[var(--secondary-accent)] text-white font-semibold 
             shadow-md hover:bg-[var(--hover-button)] hover:scale-[1.02] transition-all duration-300 hover:cursor-pointer"
                 >
