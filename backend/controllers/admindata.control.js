@@ -377,31 +377,36 @@ const getService = async (req, res) => {
 
 // CV file
 
-const uploadPdf = async(req,res)=>{
-  try {
-    
-    if (!req.files || !req.files.pdf) {
-      return res.status(400).json({ error: "No file uploaded" });
+const uploadPdf = async (req, res) => {
+    try {
+        if (!req.files || !req.files.pdf) {
+            return res.status(400).json({ error: "No file uploaded" });
+        }
+
+        const pdfFile = req.files.pdf;
+        
+        // Use process.cwd() to start from the root of your project
+        const uploadDir = path.join(process.cwd(), "public", "doc");
+        const uploadPath = path.join(uploadDir, "CV.pdf");
+
+        // Create directory if it doesn't exist
+        if (!fs.existsSync(uploadDir)) {
+            fs.mkdirSync(uploadDir, { recursive: true });
+        }
+
+        // Move the file
+        await pdfFile.mv(uploadPath);
+
+        res.status(200).json({
+            success: true,
+            message: "PDF uploaded successfully",
+            fileUrl: "/doc/CV.pdf"
+        });
+    } catch (error) {
+        console.error("Detailed Upload Error:", error);
+        res.status(500).json({ error: "Server error during upload", details: error.message });
     }
-
-    const pdfFile = req.files.pdf;
-    const uploadPath = path.join(__dirname, "..", "public", "doc", "CV.pdf");
-
-    if (pdfFile.mimetype !== "application/pdf") {
-      return res.status(400).json({ error: "Only PDF files are allowed" });
-    }
-
-    await pdfFile.mv(uploadPath);
-
-    res.json({
-      message: "PDF uploaded successfully",
-      fileUrl: `/doc/${pdfFile.name}`
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ errors: "Error uploading PDF" });
-  }
-}
+};
 
 const getPdf = async (req, res) => {
   try {
