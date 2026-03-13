@@ -8,6 +8,7 @@ const {dbConnection} = require('./database/database')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
 const path = require('path')
+const os = require('os');
 require('dotenv').config()
 
 const app = express()
@@ -22,7 +23,10 @@ app.use(cookieParser())
 app.use("/doc", express.static(path.join(__dirname, "public", "doc")));
 
 
-app.use(fileUpload());
+app.use(fileUpload({
+    useTempFiles: true,
+    tempFileDir: os.tmpdir() // Works better on Vercel/Linux
+}));
 
 app.use(async (req, res, next) => {
     await dbConnection();
