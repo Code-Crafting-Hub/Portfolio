@@ -380,44 +380,33 @@ const getService = async (req, res) => {
 const uploadPdf = async (req, res) => {
     try {
         if (!req.files || !req.files.pdf) {
-            return res.status(400).json({ error: "No file uploaded" });
+            return res.status(400).json({ error: "No file detected" });
         }
 
         const pdfFile = req.files.pdf;
 
-        // 1. Validation
-        if (pdfFile.mimetype !== "application/pdf") {
-            return res.status(400).json({ error: "Only PDF files are allowed" });
+        if (!pdfFile.tempFilePath) {
+            return res.status(500).json({ error: "Temporary file path not found on server" });
         }
 
-        // 2. Upload to Cloudinary
-        // We use 'portfolio_docs/CV' as a fixed public_id to keep it organized
         const result = await cloudinary.uploader.upload(pdfFile.tempFilePath, {
-            resource_type: "raw",
+            resource_type: "raw", 
             folder: "portfolio_docs",
             public_id: "CV",
-            overwrite: true,
-            invalidate: true // This clears the CDN cache so the old version disappears
+            invalidate: true
         });
 
-        // 3. Save the new URL to your Database
-        // This ensures your frontend always gets the most recent link
-        const updatedAdmin = await adminModel.findOneAndUpdate(
-            {}, // Finds the first admin document
-            { cvUrl: result.secure_url },
-            { new: true }
-        );
-
-        res.status(200).json({
+        return res.status(200).json({
             success: true,
-            message: "CV updated successfully",
-            fileUrl: result.secure_url,
-            updatedAdmin
+            fileUrl: result.secure_url
         });
 
     } catch (error) {
-        console.error("Upload Error:", error);
-        res.status(500).json({ error: "Failed to upload PDF to Cloudinary" });
+        console.error("Vercel Upload Crash:", error);
+        return res.status(500).json({ 
+            error: "Internal Server Error", 
+            details: error.message 
+        });
     }
 };
 
