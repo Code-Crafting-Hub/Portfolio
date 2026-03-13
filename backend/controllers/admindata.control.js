@@ -384,30 +384,30 @@ const uploadPdf = async (req, res) => {
         }
 
         const pdfFile = req.files.pdf;
-        
-        // Use process.cwd() to start from the root of your project
-        const uploadDir = path.join(process.cwd(), "public", "doc");
-        const uploadPath = path.join(uploadDir, "CV.pdf");
 
-        // Create directory if it doesn't exist
-        if (!fs.existsSync(uploadDir)) {
-            fs.mkdirSync(uploadDir, { recursive: true });
+        // Check file type
+        if (pdfFile.mimetype !== "application/pdf") {
+            return res.status(400).json({ error: "Only PDF files are allowed" });
         }
 
-        // Move the file
-        await pdfFile.mv(uploadPath);
+        // Upload to Cloudinary using the temp file created by express-fileupload
+        const result = await cloudinary.uploader.upload(pdfFile.tempFilePath, {
+            resource_type: "raw", // Required for PDFs/non-image files
+            folder: "portfolio_docs",
+            public_id: "CV" // This will overwrite the old CV each time
+        });
 
         res.status(200).json({
             success: true,
-            message: "PDF uploaded successfully",
-            fileUrl: "/doc/CV.pdf"
+            message: "PDF uploaded to Cloudinary successfully",
+            fileUrl: result.secure_url // This is the URL you will save in your DB
         });
+
     } catch (error) {
-        console.error("Detailed Upload Error:", error);
-        res.status(500).json({ error: "Server error during upload", details: error.message });
+        console.error("Cloudinary Upload Error:", error);
+        res.status(500).json({ error: "Upload failed", details: error.message });
     }
 };
-
 const getPdf = async (req, res) => {
   try {
     const filePath = path.join(__dirname, "../public/doc", "CV.pdf");
