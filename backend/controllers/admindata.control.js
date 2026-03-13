@@ -6,6 +6,7 @@ const imgModel = require("../models/image.model");
 const serviceModel = require("../models/service.model");
 const path = require('path')
 const fs = require('fs')
+const os = require('os');
 
 // Fetching user login data
 
@@ -380,49 +381,47 @@ const getService = async (req, res) => {
 const uploadPdf = async (req, res) => {
     try {
         if (!req.files || !req.files.pdf) {
-            return res.status(400).json({ error: "No file detected" });
+            return res.status(400).json({ error: "No file provided" });
         }
 
         const pdfFile = req.files.pdf;
-
-        if (!pdfFile.tempFilePath) {
-            return res.status(500).json({ error: "Temporary file path not found on server" });
-        }
+        console.log("File Name:", pdfFile.name);
+        console.log("Temp Path:", pdfFile.tempFilePath);
 
         const result = await cloudinary.uploader.upload(pdfFile.tempFilePath, {
-            resource_type: "raw", 
+            resource_type: "raw",
             folder: "portfolio_docs",
             public_id: "CV",
+            overwrite: true,
             invalidate: true
         });
 
         return res.status(200).json({
             success: true,
+            message: "Uploaded to Cloudinary",
             fileUrl: result.secure_url
         });
 
     } catch (error) {
-        console.error("Vercel Upload Crash:", error);
+
+        console.error("Cloudinary Error:", error);
         return res.status(500).json({ 
-            error: "Internal Server Error", 
-            details: error.message 
+            error: "Upload Failed", 
+            message: error.message 
         });
     }
 };
-
 // GET PDF URL
 const getPdf = async (req, res) => {
     try {
-        // Fetch the URL from the database
+
         const admin = await adminModel.findOne({});
         
         if (!admin || !admin.cvUrl) {
-            // Fallback URL if DB is empty but file exists in Cloudinary
             const fallbackUrl = `https://res.cloudinary.com/${process.env.CLOUD_NAME}/raw/upload/v1/portfolio_docs/CV.pdf`;
             return res.status(200).json({ url: fallbackUrl });
         }
 
-        // We add a timestamp to the URL to force the browser to ignore cache
         const cacheBusterUrl = `${admin.cvUrl}?v=${Date.now()}`;
         
         res.status(200).json({ url: cacheBusterUrl });
