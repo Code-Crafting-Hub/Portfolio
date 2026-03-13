@@ -409,8 +409,7 @@ export default function Home() {
   <a 
     href="https://drive.google.com/uc?export=download&id=1XlIilZdZHwot8apxPq5djRro9TSR3yov" 
     className="w-fit py-2 px-6 rounded-full bg-[var(--secondary-accent)] hover:bg-[var(--hover-button)]  transition delay-100 duration-300 font-semibold hover:cursor-pointer shadow-md shadow-green-800 text-white"
-    target="_blank" 
-    rel="noopener noreferrer"
+    target="_blank"
   >
     Download CV
   </a>
