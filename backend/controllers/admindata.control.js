@@ -379,41 +379,68 @@ const getService = async (req, res) => {
 
 const uploadPdf = async (req, res) => {
     try {
+        if (!req.files || !req.files.pdf) {
+            return res.status(400).json({ error: "No file uploaded" });
+        }
+
         const pdfFile = req.files.pdf;
 
-        // 1. (Optional) Delete the old file if you have the public_id stored
-        // For 'raw' files (PDFs), you must specify resource_type: 'raw'
-        await cloudinary.uploader.destroy("portfolio_docs/CV", { resource_type: "raw" });
+        // 1. Validation
+        if (pdfFile.mimetype !== "application/pdf") {
+            return res.status(400).json({ error: "Only PDF files are allowed" });
+        }
 
-        // 2. Upload the new file
+        // 2. Upload to Cloudinary
+        // We use 'portfolio_docs/CV' as a fixed public_id to keep it organized
         const result = await cloudinary.uploader.upload(pdfFile.tempFilePath, {
             resource_type: "raw",
             folder: "portfolio_docs",
             public_id: "CV",
-            invalidate: true // Clears CDN cache
+            overwrite: true,
+            invalidate: true // This clears the CDN cache so the old version disappears
         });
+
+        // 3. Save the new URL to your Database
+        // This ensures your frontend always gets the most recent link
+        const updatedAdmin = await adminModel.findOneAndUpdate(
+            {}, // Finds the first admin document
+            { cvUrl: result.secure_url },
+            { new: true }
+        );
 
         res.status(200).json({
             success: true,
-            fileUrl: result.secure_url
+            message: "CV updated successfully",
+            fileUrl: result.secure_url,
+            updatedAdmin
         });
+
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Update failed" });
+        console.error("Upload Error:", error);
+        res.status(500).json({ error: "Failed to upload PDF to Cloudinary" });
     }
 };
-const getPdf = async (req, res) => {
-  try {
-    const filePath = path.join(__dirname, "../public/doc", "CV.pdf");
 
-    if (!fs.existsSync(filePath)) {
-      return res.status(404).json({ error: "CV not found" });
+// GET PDF URL
+const getPdf = async (req, res) => {
+    try {
+        // Fetch the URL from the database
+        const admin = await adminModel.findOne({});
+        
+        if (!admin || !admin.cvUrl) {
+            // Fallback URL if DB is empty but file exists in Cloudinary
+            const fallbackUrl = `https://res.cloudinary.com/${process.env.CLOUD_NAME}/raw/upload/v1/portfolio_docs/CV.pdf`;
+            return res.status(200).json({ url: fallbackUrl });
+        }
+
+        // We add a timestamp to the URL to force the browser to ignore cache
+        const cacheBusterUrl = `${admin.cvUrl}?v=${Date.now()}`;
+        
+        res.status(200).json({ url: cacheBusterUrl });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Internal server error retrieving CV" });
     }
-    res.sendFile(filePath);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ errors: "Internal server error in getting file" });
-  }
 };
 
 
