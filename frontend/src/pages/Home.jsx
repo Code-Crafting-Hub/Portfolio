@@ -49,47 +49,47 @@ export default function Home() {
 
   //download CV
 
-  const downloadCV = async () => {
-  try {
-    // This must be the PUBLIC delivery URL, not the console/dashboard link
-    const fileUrl = `https://drive.google.com/file/d/1XlIilZdZHwot8apxPq5djRro9TSR3yov/view?usp=drive_link`;
+//   const downloadCV = async () => {
+//   try {
+//     // This must be the PUBLIC delivery URL, not the console/dashboard link
+//     const fileUrl = `https://drive.google.com/file/d/1XlIilZdZHwot8apxPq5djRro9TSR3yov/view?usp=drive_link`;
 
-    const response = await axios.get(fileUrl, {
-      responseType: "blob", // Important for handling PDF data
-    });
+//     const response = await axios.get(fileUrl, {
+//       responseType: "blob", // Important for handling PDF data
+//     });
 
-    if (response.status === 200) {
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement("a");
-      link.href = url;
+//     if (response.status === 200) {
+//       const url = window.URL.createObjectURL(new Blob([response.data]));
+//       const link = document.createElement("a");
+//       link.href = url;
       
-      // This forces the browser to save it as "CV.pdf"
-      link.setAttribute("download", "My_CV.pdf"); 
+//       // This forces the browser to save it as "CV.pdf"
+//       link.setAttribute("download", "My_CV.pdf"); 
       
-      document.body.appendChild(link);
-      link.click();
+//       document.body.appendChild(link);
+//       link.click();
       
-      // Cleanup
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
+//       // Cleanup
+//       document.body.removeChild(link);
+//       window.URL.revokeObjectURL(url);
 
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "CV Downloaded Successfully",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-    }
-  } catch (error) {
-    console.error("Download failed:", error);
-    Swal.fire({
-      icon: "error",
-      title: "Download Failed",
-      text: "The file might be missing or the URL is incorrect.",
-    });
-  }
-};
+//       Swal.fire({
+//         position: "center",
+//         icon: "success",
+//         title: "CV Downloaded Successfully",
+//         showConfirmButton: false,
+//         timer: 1500,
+//       });
+//     }
+//   } catch (error) {
+//     console.error("Download failed:", error);
+//     Swal.fire({
+//       icon: "error",
+//       title: "Download Failed",
+//       text: "The file might be missing or the URL is incorrect.",
+//     });
+//   }
+// };
 
   // const downloadCV = async () => {
   //   try {
@@ -402,8 +402,11 @@ export default function Home() {
               })}
             </div>
 
-            <div className="flex justify-center lg:justify-start">
+            {/* <div className="flex justify-center lg:justify-start">
               <Button name="Download CV" url={downloadCV} />
+            </div> */}
+            <div className="flex justify-center lg:justify-start">
+              <Button name="Download CV" url="https://drive.google.com/file/d/1XlIilZdZHwot8apxPq5djRro9TSR3yov/view?usp=drive_link" />
             </div>
           </div>
 
