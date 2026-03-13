@@ -379,33 +379,27 @@ const getService = async (req, res) => {
 
 const uploadPdf = async (req, res) => {
     try {
-        if (!req.files || !req.files.pdf) {
-            return res.status(400).json({ error: "No file uploaded" });
-        }
-
         const pdfFile = req.files.pdf;
 
-        // Check file type
-        if (pdfFile.mimetype !== "application/pdf") {
-            return res.status(400).json({ error: "Only PDF files are allowed" });
-        }
+        // 1. (Optional) Delete the old file if you have the public_id stored
+        // For 'raw' files (PDFs), you must specify resource_type: 'raw'
+        await cloudinary.uploader.destroy("portfolio_docs/CV", { resource_type: "raw" });
 
-        // Upload to Cloudinary using the temp file created by express-fileupload
+        // 2. Upload the new file
         const result = await cloudinary.uploader.upload(pdfFile.tempFilePath, {
-            resource_type: "raw", // Required for PDFs/non-image files
+            resource_type: "raw",
             folder: "portfolio_docs",
-            public_id: "CV" // This will overwrite the old CV each time
+            public_id: "CV",
+            invalidate: true // Clears CDN cache
         });
 
         res.status(200).json({
             success: true,
-            message: "PDF uploaded to Cloudinary successfully",
-            fileUrl: result.secure_url // This is the URL you will save in your DB
+            fileUrl: result.secure_url
         });
-
     } catch (error) {
-        console.error("Cloudinary Upload Error:", error);
-        res.status(500).json({ error: "Upload failed", details: error.message });
+        console.error(error);
+        res.status(500).json({ error: "Update failed" });
     }
 };
 const getPdf = async (req, res) => {
