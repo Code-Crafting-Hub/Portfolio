@@ -406,8 +406,15 @@ export default function Home() {
               <Button name="Download CV" url={downloadCV} />
             </div> */}
             <div className="flex justify-center lg:justify-start">
-              <a href="https://drive.google.com/file/d/1XlIilZdZHwot8apxPq5djRro9TSR3yov/view?usp=drive_link" target="_blank">Download CV</a>
-            </div>
+  <a 
+    href="https://drive.google.com/uc?export=download&id=1XlIilZdZHwot8apxPq5djRro9TSR3yov" 
+    className="bg-blue-600 text-white px-6 py-2 rounded-md font-semibold"
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    Download CV
+  </a>
+</div>
           </div>
 
           {/* RIGHT IMAGE */}
