@@ -1,4 +1,8 @@
+/* Change this: */
 @import "tailwindcss";
+
+/* To this (adjust path to point to your src folder): */
+@import "tailwindcss" source("./src");
 
 :root {
   --color-background: #ffffff;
