@@ -406,7 +406,7 @@ export default function Home() {
               <Button name="Download CV" url={downloadCV} />
             </div> */}
             <div className="flex justify-center lg:justify-start">
-              <Button name="Download CV" url="https://drive.google.com/file/d/1XlIilZdZHwot8apxPq5djRro9TSR3yov/view?usp=drive_link" />
+              <a href="https://drive.google.com/file/d/1XlIilZdZHwot8apxPq5djRro9TSR3yov/view?usp=drive_link" target="_blank">Download CV</a>
             </div>
           </div>
 
