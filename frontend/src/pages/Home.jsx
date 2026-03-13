@@ -408,7 +408,7 @@ export default function Home() {
             <div className="flex justify-center lg:justify-start">
   <a 
     href="https://drive.google.com/uc?export=download&id=1XlIilZdZHwot8apxPq5djRro9TSR3yov" 
-    className="bg-blue-600 text-white px-6 py-2 rounded-md font-semibold"
+    className="w-fit py-2 px-6 rounded-full bg-[var(--secondary-accent)] hover:bg-[var(--hover-button)]  transition delay-100 duration-300 font-semibold hover:cursor-pointer shadow-md shadow-green-800 text-white"
     target="_blank" 
     rel="noopener noreferrer"
   >
