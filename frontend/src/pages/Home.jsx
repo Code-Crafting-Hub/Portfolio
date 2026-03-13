@@ -51,7 +51,7 @@ export default function Home() {
 
   const downloadCV = async () => {
     try {
-      const response = await axios.get(`${Backend_url}user/download`, {
+      const response = await axios.get(`https://console.cloudinary.com/app/c-cfb2895c828fb96c218b0eb22a6415/assets/media_library/search/asset/916777fa12cf3218d178af6490ce9ef6/manage/summary?q=&view_mode=mosaic&context=manage`, {
         responseType: "blob",
       });
       if (response.status !== 200) {
