@@ -25,8 +25,8 @@ app.use("/doc", express.static(path.join(__dirname, "public", "doc")));
 
 app.use(fileUpload({
     useTempFiles: true,
-    tempFileDir: os.tmpdir(), // Uses the OS temp folder (mandatory for Vercel)
-    limits: { fileSize: 5 * 1024 * 1024 } // Optional: limit to 5MB
+    tempFileDir: os.tmpdir(), 
+    preserveExtension: true
 }));
 
 app.use(async (req, res, next) => {
