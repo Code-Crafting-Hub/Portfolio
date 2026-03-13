@@ -1,5 +1,5 @@
 const userModel = require("../models/user.model");
-const cloudinary = require("cloudinary");
+const cloudinary = require("cloudinary").v2;
 const projectModel = require("../models/project.model");
 const contactModel = require("../models/contact.model");
 const imgModel = require("../models/image.model");
