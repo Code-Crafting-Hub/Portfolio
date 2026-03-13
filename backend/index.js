@@ -1,4 +1,4 @@
-const {app} = require("./app")
+const app = require("./app")
 require('dotenv').config()
 
 // const port = process.env.PORT || 3002
@@ -6,4 +6,4 @@ require('dotenv').config()
 // app.listen(port,()=>{
 //     console.log(`server is running on port ${port}`)
 // })
-module.exports = {app}
+module.exports = app

@@ -27,7 +27,10 @@ app.use(fileUpload({
     tempFileDir : '/tmp/'
 }));
 
-dbConnection()
+app.use(async (req, res, next) => {
+    await dbConnection();
+    next();
+});
 
 app.use('/api/v1/user', userRoute)
 app.use('/api/v1/admin', adminRoute)
@@ -39,4 +42,4 @@ cloudinary.config({
     api_secret: process.env.API_SECRET
 });
 
-module.exports = {app}
+module.exports = app
