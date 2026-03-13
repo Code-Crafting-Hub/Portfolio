@@ -270,7 +270,6 @@ export default function Settings() {
     e.target.reset(); // Reset the file input field UI
   } catch (error) {
     console.error(error);
-    // If token is expired, redirect to login
     if (error.response?.status === 401) {
        navigate("/");
     }
@@ -625,9 +624,6 @@ export default function Settings() {
                 </p>
 
                 <button
-                  onClick={() =>
-                    window.open(`${Backend_url}data/get-pdf`, "_blank")
-                  }
                   className="py-3 px-8 rounded-full bg-[var(--primary-accent)] text-white font-semibold 
             shadow-md hover:bg-[var(--secondary-accent)] hover:scale-[1.05] transition-all duration-300 hover:cursor-pointer"
                 >
