@@ -50,39 +50,81 @@ export default function Home() {
   //download CV
 
   const downloadCV = async () => {
-    try {
-      const response = await axios.get(`https://console.cloudinary.com/app/c-cfb2895c828fb96c218b0eb22a6415/assets/media_library/search/asset/916777fa12cf3218d178af6490ce9ef6/manage/summary?q=&view_mode=mosaic&context=manage`, {
-        responseType: "blob",
-      });
-      if (response.status !== 200) {
-        Swal.fire({
-          position: "center",
-          icon: "error",
-          title: "Failed to Download CV",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        return;
-      } else {
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "CV Downloaded Successfully",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      }
+  try {
+    // This must be the PUBLIC delivery URL, not the console/dashboard link
+    const fileUrl = `https://res.cloudinary.com/YOUR_CLOUD_NAME/raw/upload/fl_attachment/portfolio_docs/CV.pdf`;
+
+    const response = await axios.get(fileUrl, {
+      responseType: "blob", // Important for handling PDF data
+    });
+
+    if (response.status === 200) {
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement("a");
       link.href = url;
-      link.setAttribute("download", "CV.pdf");
+      
+      // This forces the browser to save it as "CV.pdf"
+      link.setAttribute("download", "My_CV.pdf"); 
+      
       document.body.appendChild(link);
       link.click();
-      link.remove();
-    } catch (error) {
-      console.error("Download failed:", error);
+      
+      // Cleanup
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "CV Downloaded Successfully",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     }
-  };
+  } catch (error) {
+    console.error("Download failed:", error);
+    Swal.fire({
+      icon: "error",
+      title: "Download Failed",
+      text: "The file might be missing or the URL is incorrect.",
+    });
+  }
+};
+
+  // const downloadCV = async () => {
+  //   try {
+  //     const response = await axios.get(`https://console.cloudinary.com/app/c-cfb2895c828fb96c218b0eb22a6415/assets/media_library/search/asset/916777fa12cf3218d178af6490ce9ef6/manage/summary?q=&view_mode=mosaic&context=manage`, {
+  //       responseType: "blob",
+  //     });
+  //     if (response.status !== 200) {
+  //       Swal.fire({
+  //         position: "center",
+  //         icon: "error",
+  //         title: "Failed to Download CV",
+  //         showConfirmButton: false,
+  //         timer: 1500,
+  //       });
+  //       return;
+  //     } else {
+  //       Swal.fire({
+  //         position: "center",
+  //         icon: "success",
+  //         title: "CV Downloaded Successfully",
+  //         showConfirmButton: false,
+  //         timer: 1500,
+  //       });
+  //     }
+  //     const url = window.URL.createObjectURL(new Blob([response.data]));
+  //     const link = document.createElement("a");
+  //     link.href = url;
+  //     link.setAttribute("download", "CV.pdf");
+  //     document.body.appendChild(link);
+  //     link.click();
+  //     link.remove();
+  //   } catch (error) {
+  //     console.error("Download failed:", error);
+  //   }
+  // };
 
   // getting user data
 
