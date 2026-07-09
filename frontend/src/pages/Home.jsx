@@ -407,7 +407,7 @@ export default function Home() {
             </div> */}
             <div className="flex justify-center lg:justify-start">
   <a 
-    href="https://drive.google.com/file/d/15MVAKYeBWFV_EitmRrVvAA2l_v8ZAZSg/view?usp=sharing" 
+    href="https://drive.google.com/file/d/1_Q98Ldq8MF2a4wdvcweJ4pGSeKVclPUj/view?usp=sharing" 
     className="w-fit py-2 px-6 rounded-full bg-[var(--secondary-accent)] hover:bg-[var(--hover-button)]  transition delay-100 duration-300 font-semibold hover:cursor-pointer shadow-md shadow-green-800 text-white"
     target="_blank"
     downlaod="resume"
